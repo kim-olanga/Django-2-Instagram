@@ -8,7 +8,7 @@ class Image(models.Model):
     title = models.CharField(max_length=100)
     image_caption = models.CharField(max_length=200)
     profile = models.ForeignKey(User,on_delete=models.CASCADE)
-    likes = models.ManyToManyField('self', symmetrical = False, null = True)
+    # likes = models.ManyToManyField('like')
     comments = models.TextField(blank=True,null=True)
 
     def __str__(self):
