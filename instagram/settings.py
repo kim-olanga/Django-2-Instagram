@@ -29,11 +29,11 @@ SECRET_KEY = 'django-insecure-dkw4m1qbvyk0)(t)3s2(31rp-7aao1f=p764eac$%ou3d#4ne*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv())
+ALLOWED_HOSTS = []
 cloudinary.config( 
-  cloud_name = config('CLOUD_NAME'), 
-  api_key = config('CLOUD_API_KEY'), 
-  api_secret = config('API_SECRET') 
+  cloud_name = "school-for-schoolis", 
+  api_key = "241414696281575", 
+  api_secret = "qIB93Jm8VZsvcypU_AeIBQewJpQ" 
 )
 
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'app',
     'cloudinary',
     'registration',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -8,6 +8,7 @@ django = "*"
 cloudinary = "*"
 django-registration = "*"
 django-crispy-forms = "*"
+django-registration-redux = "*"
 
 [dev-packages]
 
