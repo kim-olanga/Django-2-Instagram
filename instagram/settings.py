@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from distutils.command.config import config
 from pathlib import Path
 import cloudinary
 import cloudinary.uploader
@@ -28,7 +29,12 @@ SECRET_KEY = 'django-insecure-dkw4m1qbvyk0)(t)3s2(31rp-7aao1f=p764eac$%ou3d#4ne*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS',cast=Csv())
+cloudinary.config( 
+  cloud_name = config('CLOUD_NAME'), 
+  api_key = config('CLOUD_API_KEY'), 
+  api_secret = config('API_SECRET') 
+)
 
 
 # Application definition
@@ -36,6 +42,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'app',
     'cloudinary',
+    'registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -110,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Nairobi'
 
 USE_I18N = True
 
@@ -121,14 +128,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR/'static_root/'
+MEDIA_ROOT = BASE_DIR/'media/'
+MEDIA_URL = '/media/'
+
+STATICFILES_DIRS=[
+    BASE_DIR/'static/'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-cloudinary.config( 
-  cloud_name = "YOUR_CLOUD_NAME", 
-  api_key = "YOUR_API_KEY", 
-  api_secret = "YOUR_API_SECRET" 
-)
+
+LOGIN_REDIRECT_URL = '/'
