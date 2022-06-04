@@ -53,4 +53,5 @@ def index(request):
 
 login_required(login_url='login')
 def newPost(request):
+    
     return render(request,'new-post.html')
