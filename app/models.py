@@ -13,3 +13,9 @@ class Image(models.Model):
 
     def __str__(self):
         return self.image
+
+class User(models.Model):
+    image = models.ManyToManyField('image',blank=True)
+
+    def __str__(self):
+        return self.image

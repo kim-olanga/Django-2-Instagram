@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
+from .forms import ImageForm, CreateUserForm
 
 # Create your views here.
 def loginPage(request):
@@ -8,12 +9,12 @@ def loginPage(request):
     return render(request,'accounts/login.html', context)
 
 def signupPage(request):
-    form = UserCreationForm()
+    form = CreateUserForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.Post)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
-            
+
     context = {'form':form}
     return render(request,'accounts/signup.html', context)
 
