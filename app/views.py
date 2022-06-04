@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 def loginPage(request):
@@ -7,7 +8,8 @@ def loginPage(request):
     return render(request,'accounts/login.html', context)
 
 def signupPage(request):
-    context = {}
+    form = UserCreationForm()
+    context = {'form':form}
     return render(request,'accounts/signup.html', context)
 
 def index(request):
