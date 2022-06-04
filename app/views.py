@@ -9,6 +9,11 @@ def loginPage(request):
 
 def signupPage(request):
     form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.Post)
+        if form.is_valid():
+            form.save()
+            
     context = {'form':form}
     return render(request,'accounts/signup.html', context)
 
