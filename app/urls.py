@@ -4,12 +4,12 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('signup/',views.signupPage,name='signup'),
-    path('login/',views.loginPage,name='login'),
-    path('logout/',views.logoutUser,name='logout'),
     path('', views.index,name='index'),
-    path('new-post/', views.newPost,name='new-post'),
-
+    path('profile', views.profile, name='profile'),
+    path('like', views.like, name='like'),
+    path('like-post',views.like_post,name='like_post'),
+    path('search',views.search,name='search'),
+    
     
 ]
 if settings.DEBUG:
