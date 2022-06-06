@@ -42,7 +42,7 @@ class Post(models.Model):
         self.save()
 
 class Comment(models.Model):
-    comment = models.CharField(max_length=256)
+    comment = models.CharField(max_length=256, default='default value')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 

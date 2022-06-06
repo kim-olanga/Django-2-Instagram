@@ -3,14 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import CommentForm, Image,Profile,Likes,Comment, UpdateProfileForm, Follow
+from .models import Comment, Post,UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from .forms import CreateUserForm, PostForm
-from django.core.exceptions import ObjectDoesNotExist
-
-from .models import *
-from django.contrib.auth.models import User
+from .forms import *
 
 # Create your views here.
 def signupPage(request):
