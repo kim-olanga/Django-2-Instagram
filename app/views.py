@@ -75,6 +75,7 @@ def index(request):
 
     return render(request,'index.html')
 
+@login_required
 def post(request, id):
     post = Post.objects.get(id = id)
     comments = Comment.objects.filter(post__id=id)
@@ -96,14 +97,15 @@ def post(request, id):
         comment_form = CommentForm()
 
     return render(request, "post.html", context={"post":post,"current_user":current_user,"current_profile":current_profile,"comment_form":comment_form,"comments":comments,})
-                                                          
+
+@login_required                                                        
 def like(request, id):
     post = Post.objects.get(id = id)
     post.likes += 1
     post.save()
     return HttpResponseRedirect(reverse("index"))
 
-
+@login_required
 def like_post(request, id):
     post = Post.objects.get(id = id)
     post.likes += 1
