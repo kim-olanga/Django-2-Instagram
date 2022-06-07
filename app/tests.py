@@ -4,8 +4,8 @@ from .models import Post, UserProfile, User, Comment
 # Create your tests here.
 class PostTestClass(TestCase):
     def setUp(self):
-        self.user = User(first_name="brian", last_name="kiiru",
-                         username="briankiiru", email="kiirubrian21@gmail.com",)
+        self.user = User(first_name="kimberly", last_name="olanga",
+                         username="kimberly", email="kimolanga123@gmail.com",)
         self.user.save()
         self.profile = UserProfile(user=self.user, bio="None",
                                    followers=0, following=0,)
@@ -19,16 +19,16 @@ class PostTestClass(TestCase):
 
 class UserTestClass(TestCase):
     def setUp(self):
-        self.user = User(first_name="brian", last_name="kiiru",
-                         username="briankiiru", email="brian@gmail.com",)
+        self.user = User(first_name="kimberly", last_name="olanga",
+                         username="kimberly", email="kim@gmail.com",)
 
     def test_instance(self):
         self.assertTrue(isinstance(self.user, User))
 
 class UserProfileTestClass(TestCase):
     def setUp(self):
-        self.user = User(first_name="brian", last_name="kiiru",
-                         username="briankiiru", email="brian@gmail.com",)
+        self.user = User(first_name="kimberly", last_name="olanga",
+                         username="kimberly", email="kimolanga123@gmail.com",)
         self.user.save()
         self.profile = UserProfile(user=self.user, bio="None",
                                    followers=0, following=0,)
