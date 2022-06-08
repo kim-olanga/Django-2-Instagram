@@ -7,9 +7,7 @@ from .forms import UploadForm, ProfileForm, CommentForm, RegisterForm
 from django.urls.base import reverse
 from django.http.response import Http404
 
-
 # Create your views here.
-
 
 def sign_up(request):
     if request.method == 'POST':

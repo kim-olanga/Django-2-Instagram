@@ -1,4 +1,4 @@
-{%extends "registration/base.html"%} {% load bootstrap4 %} {% block content %}
+{%extends "registration/base.html"%} {% load crispy_forms_tags %} {% block content %}
 <div class="container">
     <div class="row">
         <!-- Empty div -->
@@ -15,7 +15,7 @@
                 <div class="panel-body">
 
                     <form action="/accounts/register/" method="post">
-                        {% csrf_token %} {% bootstrap_form form %}
+                        {% csrf_token %} {{ form|crispy}}
                         <div class="form-group">
                             <input type="submit" class="btn btn-primary btn-sm" value="Sign Up">
                         </div>

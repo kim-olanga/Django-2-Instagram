@@ -44,9 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'cloudinary',
-    'django_filters',
     'bootstrap4',
+    'django_forms_bootstrap',
+    'crispy_forms',
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 cloudinary.config( 
   cloud_name = "school-for-schoolis", 
   api_key = "241414696281575", 
