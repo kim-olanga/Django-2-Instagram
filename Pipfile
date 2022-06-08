@@ -9,6 +9,7 @@ cloudinary = "*"
 django-registration = "*"
 django-crispy-forms = "*"
 django-registration-redux = "*"
+django-filter = "*"
 
 [dev-packages]
 

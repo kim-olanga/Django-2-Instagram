@@ -19,9 +19,6 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('app.urls')),
-    path('accounts/',include('registration.backends.default.urls')),
-    path('signup/',views.signupPage,name='signup'),
-    path('login/',views.loginPage,name='login'),
-    path('logout/',views.logoutUser,name='logout'),
+    path('', include('app.urls')),
+    path('register/',views.register,name='register'),
 ]

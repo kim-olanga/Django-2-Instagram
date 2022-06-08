@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from distutils.command.config import config
 from pathlib import Path
+import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -30,28 +31,28 @@ SECRET_KEY = 'django-insecure-dkw4m1qbvyk0)(t)3s2(31rp-7aao1f=p764eac$%ou3d#4ne*
 DEBUG = True
 
 ALLOWED_HOSTS = []
-cloudinary.config( 
-  cloud_name = "school-for-schoolis", 
-  api_key = "241414696281575", 
-  api_secret = "qIB93Jm8VZsvcypU_AeIBQewJpQ" 
-)
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'app',
-    'cloudinary',
-    'registration',
-    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
+    'cloudinary',
+    'django_filters',
+    'bootstrap4',
 ]
-CRISPY_TEMPLATE_PACK = 'uni_form'
+cloudinary.config( 
+  cloud_name = "school-for-schoolis", 
+  api_key = "241414696281575", 
+  api_secret = "qIB93Jm8VZsvcypU_AeIBQewJpQ" 
+)
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -129,19 +130,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR/'static_root/'
-MEDIA_ROOT = BASE_DIR/'media/'
-MEDIA_URL = '/media/'
 
 STATICFILES_DIRS=[
     BASE_DIR/'static/'
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+LOGIN_URL = "/accounts/login/" # this is the name of the url
+LOGOUT_REDIRECT_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = '/'
