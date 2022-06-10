@@ -1,99 +1,73 @@
 from django.db import models
+from tinymce.models import HTMLField
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.core.exceptions import ObjectDoesNotExist
-from cloudinary.models import CloudinaryField
+import datetime as dt
+
+# Create your models here.
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,primary_key=True)
+    photo= models.ImageField(upload_to='profiles/',null=True,blank=True)
+    bio= HTMLField(max_length=240, null=True)
+
+    def save_profile(self):
+        self.save()
+
+    @classmethod
+    def get_profile(cls):
+        profile = Profile.objects.all()
+        return profile
+
+    @classmethod
+    def find_profile(cls,search_term):
+        profile = Profile.objects.filter(user__username__icontains=search_term)
+        return profile
 
 
 class Image(models.Model):
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='images')
+    name = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    image = models.ImageField(upload_to='image/',null=True,blank=True)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE,null=True)
+    caption = models.TextField(null=True)
+    likes = models.PositiveIntegerField(default=0)
+    posted = models.DateTimeField(auto_now_add=True)
 
-    name = models.CharField(max_length=30)
-    caption = models.CharField(max_length=30)
-    image = CloudinaryField('image')
-    likes = models.ManyToManyField(User, related_name='likes', blank=True)
-    pub_date = models.DateTimeField(auto_now_add=True, null=True)
-
-    class Meta:
-        ordering = ["-pk"]
 
     @classmethod
-    def images(cls):
-        images = cls.objects.all()
-        return images
-
-    @classmethod
-    def update_image(cls, old, new):
-        cap = Image.objects.filter(caption=old).update(caption=new)
-        return cap    
-
-    def image_url(self):
-        if self.image and hasattr(self.image, 'url'):
-            return self.image.url
-
-    def save_image(self):
-        self.save()
-
-    def delete_image(self):
-        self.delete()
-
+    def get_images(cls):
+        Images = Image.objects.all()[::-1]
+        return Images
 
     def __str__(self):
-        return self.name
+       return str(self.caption)
 
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', null=True)
-
-    bio = models.CharField(max_length=300)
-    name = models.CharField(blank=True, max_length=120)
-    photo = CloudinaryField('image',default='http://res.cloudinary.com/dim8pysls/image/upload/v1639001486/x3mgnqmbi73lten4ewzv.png')
-
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-            Profile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
-
-    @classmethod
-    def profile(cls):
-        profiles = cls.objects.all()
-        return profiles
-
-    def photo_url(self):
-        if self.photo and hasattr(self.photo, 'url'):
-            return self.photo.url
-
-    def save_profile(self):
-        self.user
-
-    def __str__(self):
-        return self.name
-
-    @classmethod
-    def search_profile(cls, name):
-        return cls.objects.filter(user__username__icontains=name).all()
-
-
+    
 class Follow(models.Model):
-    follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='following')
-    followed = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
+    users=models.ManyToManyField(User,related_name='follow')
+    current_user=models.ForeignKey(User,related_name='c_user',on_delete=models.SET_NULL,null=True)
 
-    def __str__(self):
-        return f'{self.follower} Follow'
+    @classmethod
+    def follow(cls,current_user,new):
+        friends,created=cls.objects.get_or_create(current_user=current_user)
+        friends.users.add(new)
+
+    @classmethod
+    def unfollow(cls,current_user,new):
+        friends,created=cls.objects.get_or_create(current_user=current_user)
+        friends.users.remove(new)
 
 
 class Comment(models.Model):
-    comment = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey('Profile', on_delete=models.CASCADE, related_name='comment')
-    photo = models.ForeignKey('Image', on_delete=models.CASCADE, related_name='comment')
-
-    class Meta:
-        ordering = ["-pk"]
+    poster = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments',null=True)
+    comment = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return f'{self.user.name} Image'
+        return self.comment
+
+    def save_comment(self):
+        self.save()
+
+    @classmethod
+    def get_comment(cls):
+        comment = Comment.objects.all()[::-1]
+        return comment

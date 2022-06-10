@@ -1,17 +1,19 @@
-from django.urls import path
+from django.urls import re_path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
-urlpatterns = [
-    path('home', views.index),
-    path('signup', views.sign_up),
-    path('', views.sign_up, name='index'),
-    path('profile/<str:username>/', views.profile, name='profile'),
-    path('edit/profile/', views.update_profile, name='update'),
-    path('image/', views.post, name='post'),
-    path('like/<id>', views.like_post, name='like'),
-    path('search/', views.search_profile, name='search'),
-    path('user_profile/<username>/', views.user_profile, name='user_profile'),
-    path('unfollow/<to_unfollow>', views.unfollow, name='unfollow'),
-    path('follow/<to_follow>', views.follow, name='follow'),
-    path('image/<id>', views.comment, name='comment'),
+urlpatterns=[
+    re_path('^$',views.homepage, name='homepage'),
+    re_path('like/(?P<operation>.+)/(?P<pk>\d+)',views.like, name='like'),
+    re_path('profile/(\d+)', views.user_profile, name='profile'),
+    re_path('new/profile', views.add_user_profile, name='add_profile'),
+    re_path('search/', views.search_results, name='search_results'),
+    re_path('comment/(?P<pk>\d+)',views.user_comments,name='comment'),
+    re_path('follow/(?P<operation>.+)/(?P<id>\d+)',views.follow,name='follow'),
+    re_path('upload/', views.upload_image, name='upload_image'),
+    re_path('all/(?P<pk>\d+)', views.images, name='images'),
 ]
+
+if settings.DEBUG:
+    urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

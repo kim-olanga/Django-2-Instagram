@@ -1,35 +1,44 @@
 from django import forms
-from .models import Image, Profile, Comment
+from django.contrib.auth.forms import UserCreationForm
+from .models import *
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-
-class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
-
+class NewProfileForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ["username", "email", "password1", "password2"]
-
+        model = Profile
+        exclude = ['user']
 
 class UploadForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ('image', 'caption')
-
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ('photo', 'bio')
-
+        exclude =['name','profile','likes']
 
 class CommentForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['comment'].widget = forms.TextInput()
-        self.fields['comment'].widget.attrs['placeholder'] = 'Add a comment....'
-
     class Meta:
         model = Comment
-        fields = ('comment',)
+        exclude =['poster','image']
+
+        labels={
+          'comment' : '',   
+        }
+        widgets = {
+           'comment' : forms.TextInput(attrs={'class': 'form-control','placeholder':'Add a comment...'}),
+        }
+
+class UserRegisterForm(UserCreationForm):
+   email = forms.EmailField()
+
+   class Meta:
+        model = User
+        fields = ['username','email','password1','password2']
+
+
+        widgets = {
+           'username' : forms.TextInput(attrs={'class': 'form-control','placeholder':'Username'}),
+           'email' :forms.EmailInput(attrs={'class': 'form-control','placeholder':'Email Address'}),
+           'password1' : forms.TextInput(attrs={'class': 'form-control','placeholder':'password'}),
+           'password2' :forms.TextInput(attrs={'class': 'form-control','placeholder':'Confirm Password'}),
+    
+        }

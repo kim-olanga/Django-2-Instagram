@@ -16,6 +16,9 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from decouple import config,Csv
+import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,10 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
-    'cloudinary',
-    'bootstrap4',
-    'django_forms_bootstrap',
     'crispy_forms',
+    'tinymce',
+    'follow',
+    'registration',
+    'bootstrap4',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -58,6 +62,7 @@ cloudinary.config(
 
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -93,8 +98,10 @@ WSGI_APPLICATION = 'instagram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'instagram',
+        'USER': 'kimberly',
+        'PASSWORD': 'kim12345',
     }
 }
 
@@ -129,6 +136,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'kimberly.olanga@student.moringaschool.com'
+EMAIL_HOST_PASSWORD = 'tmyierwpdfxqhzue'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -152,3 +165,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = "/accounts/login/" # this is the name of the url
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = '/'
+
+REGISTRATION_OPEN= True
+ACCOUNT_ACTIVATION_DAYS = 5
+
+django_heroku.settings(locals())
