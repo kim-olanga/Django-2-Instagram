@@ -11,9 +11,6 @@
 - When you are fully satisfied with how your code looks,deploy it to Heroku.
 - Host your Heroku link as your live link on your created Github repository.
 
-# Live Link.
-- 
-
 # Technologies Used.
 - Django
 - Bootstrap
